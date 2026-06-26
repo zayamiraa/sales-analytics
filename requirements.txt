@@ -1,0 +1,47 @@
+import pandas as pd
+import numpy as np
+import random
+
+np.random.seed(42)
+random.seed(42)
+
+regions = ['Midwest', 'Northeast', 'South', 'West']
+categories = ['Electronics', 'Clothing', 'Home & Garden', 'Sports', 'Books']
+channels = ['Online', 'In-Store', 'Wholesale']
+
+rows = []
+for _ in range(1200):
+    region = random.choice(regions)
+    category = random.choice(categories)
+    channel = random.choice(channels)
+    month = random.randint(1, 12)
+    year = random.choice([2022, 2023, 2024])
+
+    base_price = {'Electronics': 250, 'Clothing': 65, 'Home & Garden': 90, 'Sports': 110, 'Books': 22}[category]
+    units = np.random.randint(1, 30)
+    price = round(base_price * np.random.uniform(0.8, 1.4), 2)
+    discount = round(np.random.uniform(0, 0.25), 2)
+    revenue = round(units * price * (1 - discount), 2)
+
+    # Inject some missing values
+    if random.random() < 0.04:
+        discount = None
+    if random.random() < 0.02:
+        revenue = None
+
+    rows.append({
+        'order_id': f'ORD-{10000 + _}',
+        'year': year,
+        'month': month,
+        'region': region,
+        'category': category,
+        'channel': channel,
+        'units_sold': units,
+        'unit_price': price,
+        'discount_rate': discount,
+        'total_revenue': revenue
+    })
+
+df = pd.DataFrame(rows)
+df.to_csv('/home/claude/sales-analytics/data/sales_data.csv', index=False)
+print(f"Generated {len(df)} rows. Missing values:\n{df.isnull().sum()}")
