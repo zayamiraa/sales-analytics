@@ -1,4 +1,3 @@
-"""
 Sales Performance Analysis
 ===========================
 End-to-end data analysis pipeline covering:
@@ -10,8 +9,8 @@ End-to-end data analysis pipeline covering:
   - Channel performance comparison
   - Chart exports
 
-Author: GitHub Portfolio Project
-"""
+Author: Seth Uejima
+
 
 import pandas as pd
 import numpy as np
